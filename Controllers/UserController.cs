@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
+using System;
 using Tasker.Repositories;
 
 namespace Tasker.Controllers
@@ -32,7 +34,7 @@ namespace Tasker.Controllers
             }
             return Ok(user);
         }
-        
+
         [HttpGet("DoesUserExist/{id}")]
         public IActionResult GetByFirebaseId(string id)
         {
@@ -43,6 +45,8 @@ namespace Tasker.Controllers
             }
             return Ok(user);
         }
+
+        
 
     }
 }
