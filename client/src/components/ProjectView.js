@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { GetAllProjects } from "../modules/projectManager"
+import { Link } from "react-router-dom";
 
 export default function ProjectView() {
     const [projects, setProjects] = useState([])
@@ -24,7 +25,9 @@ export default function ProjectView() {
                 {
                     projects.map(p => {
                         return <div key={p.id}>
-                            <div>{p.title}</div>
+                            <Link to={`/project/${p.id}`}>
+                                {p.title}
+                            </Link>
                         </div>
                     })
                 }

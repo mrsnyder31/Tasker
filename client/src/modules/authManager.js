@@ -27,7 +27,16 @@ const _saveUser = (userProfile) => {
 
 
 
-export const getToken = () => firebase.auth().currentUser.getIdToken();
+// export const getToken = () => firebase.auth().currentUser.getIdToken();
+export const getToken = () => {
+    const user = firebase.auth().currentUser;
+    if (user) {
+        return user.getIdToken();
+    } else {
+        return Promise.reject(new Error('User is not authenticated'));
+    }
+}
+
 
 
 export const login = (email, pw) => {

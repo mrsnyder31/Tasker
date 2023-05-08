@@ -1,23 +1,27 @@
 import { Button, Form, FormGroup, Input } from "reactstrap";
-import { addProject } from "../modules/projectManager";
+import { GetProjectById, addProject, editProject } from "../modules/projectManager";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function ProjectForm() {
-    const [project, setProject] = useState({
-        Title: "",
-        Deadline: "",
-        CategoryId: 0
-    })
 
+export default function ProjectEdit() {
+    const [project, setProject] = useState({})
+    const { id } = useParams();
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+        GetProjectById(id).then((p) => { setProject(p) })
+
+    }, [])
+
     return <>
         <div className="project_form">
             <Form>
-                <h3>New Project</h3>
+                <h3>Edit Project</h3>
                 <FormGroup >
                     <strong htmlFor="title">Title</strong>
-                    <Input type="text" name="title" id="title" placeholder=""
+                    <Input type="text" name="title" id="title" placeholder={`${project.title}`}
 
                         onChange={(evt) => {
                             let copy = { ...project }
@@ -47,10 +51,17 @@ export default function ProjectForm() {
                             setProject(copy);
                         }} />
                 </FormGroup>
+                <Button
+                    onClick={() => {
+                        navigate(`/project/${project.id}`)
+                    }}
+                >
+                    Cancel
+                </Button>
 
                 <Button onClick={() => {
-                    addProject(project).then((r) => {
-                        navigate(`/project/${r.id}`)
+                    editProject(project).then((r) => {
+                        navigate(`/project/${project.id}`)
                     })
 
                 }}>Submit</Button>
@@ -58,4 +69,3 @@ export default function ProjectForm() {
         </div>
     </>
 }
-

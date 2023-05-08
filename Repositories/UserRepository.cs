@@ -115,5 +115,25 @@ namespace Tasker.Repositories
                 }
             }
         }
+
+        public void AddUser(User user)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO User (DisplayName, Email, FirebaseUserId)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@displayName, @email, @firebaseUserId) ";
+
+                    DbUtils.AddParameter(cmd, "@displayName", user.DisplayName);
+                    DbUtils.AddParameter(cmd, "@email", user.Email);
+                    DbUtils.AddParameter(cmd, "@firebaseUserId", user.FirebaseUserId);
+
+                    user.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
     }
 }

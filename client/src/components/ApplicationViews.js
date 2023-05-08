@@ -6,6 +6,7 @@ import Hello from "./Hello";
 import ProjectView from "./ProjectView";
 import ProjectForm from "./ProjectForm";
 import ProjectDetails from "./ProjectDetails";
+import ProjectEdit from "./ProjectEdit";
 
 
 
@@ -20,6 +21,7 @@ export default function ApplicationViews({ isLoggedIn }) {
                     />
                     <Route path="project" element={<ProjectView />}></Route>
                     <Route path="project/new" element={<ProjectForm />}></Route>
+                    <Route path="project/edit/:id" element={<ProjectEdit />}></Route>
                     <Route path="project/:id" element={<ProjectDetails />}></Route>
                     <Route path="login" element={<Login />} />
                     <Route path="register" element={<Register />} />
