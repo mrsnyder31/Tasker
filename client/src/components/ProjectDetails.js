@@ -14,17 +14,33 @@ import {
     ModalFooter,
 } from "reactstrap";
 import TaskForm from "./TaskForm";
+import { GetAllTasks } from "../modules/taskManager";
+import TaskEdit from "./TaskEdit";
 
 
 export default function ProjectDetails() {
-    const [project, setProject] = useState({})
-    const [isOpen, setIsOpen] = useState(false);
-    const [taskOpen, setTaskOpen] = useState(true);
-    const { id } = useParams();
-    const navigate = useNavigate();
+    const
+        [project, setProject] = useState({}),
+        [tasks, setTasks] = useState([]),
+        [isOpen, setIsOpen] = useState(false),
+        [taskOpen, setTaskOpen] = useState(false),
+        [editOpen, setEditOpen] = useState(false),
+        [editId, setEditId] = useState(0),
+        { id } = useParams(),
+        navigate = useNavigate();
 
     useEffect(() => {
         GetProjectById(id).then((p) => { setProject(p) })
+
+        GetAllTasks().then((data) => {
+            let list = []
+            data.map(d => {
+                if (d.projectId == id) {
+                    list.push(d)
+                }
+                setTasks(list)
+            })
+        })
     }, [])
 
     const DeletePostModal = () => {
@@ -57,9 +73,22 @@ export default function ProjectDetails() {
         return (
             <Modal isOpen={taskOpen}>
 
-                <ModalBody><TaskForm setTaskOpen={setTaskOpen} taskOpen={taskOpen} /></ModalBody>
+                <ModalBody><TaskForm setTaskOpen={setTaskOpen} taskOpen={taskOpen} id={id} /></ModalBody>
                 <ModalFooter>
 
+                </ModalFooter>
+            </Modal>
+        )
+    }
+
+    const EditTaskModal = () => {
+        return (
+            <Modal isOpen={editOpen}>
+
+                <ModalBody>
+                    <TaskEdit setEditOpen={setEditOpen} editOpen={editOpen} editId={editId} />
+                </ModalBody>
+                <ModalFooter>
 
                 </ModalFooter>
             </Modal>
@@ -75,12 +104,26 @@ export default function ProjectDetails() {
                 </Link>
             </CardBody>
 
-            <CardText>
-                <button className="btn m-4" onClick={() => {
-                    setTaskOpen(!taskOpen)
-                }} >Add Task</button>
-            </CardText>
-        </Card>
+            {
+                tasks.map(t =>
+                (<CardText className="m-3" key={`task--${t.id}`}>
+                    {t.content}
+
+                    <button className="btn btn-primary m-4" onClick={() => {
+                        setEditId(t.id)
+
+                        setEditOpen(!editOpen)
+                    }} >Edit Task</button>
+
+                </CardText>
+                ))
+            }
+
+            <button className="btn m-4" onClick={() => {
+                setTaskOpen(!taskOpen)
+            }} >Add Task</button>
+
+        </Card >
         <Button
             className="btn m-4"
             onClick={() => {
@@ -99,6 +142,7 @@ export default function ProjectDetails() {
         </Button>
         <NewTaskModal />
         <DeletePostModal />
+        <EditTaskModal />
 
 
     </>

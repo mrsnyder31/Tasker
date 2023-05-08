@@ -7,7 +7,7 @@ namespace Tasker.Models
         public int Id { get; set; }
         public string Content { get; set; }
         public DateTime Deadline { get; set; }
-        public bool IsCompleted { get; set; }
+        public bool IsComplete { get; set; }
         public int ProjectId { get; set; }
     }
 }
