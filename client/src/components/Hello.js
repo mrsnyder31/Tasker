@@ -4,22 +4,34 @@ import { Button } from "reactstrap";
 import { GetAllProjects } from "../modules/projectManager";
 import { Link } from "react-router-dom";
 import { me } from "../modules/authManager";
+import { GetAllTasks } from "../modules/taskManager";
 
 
 export default function Hello() {
 
-    const [projects, setProjects] = useState([])
-    const [user, setUser] = useState({});
+    const
+        [projects, setProjects] = useState([]),
+        [tasks, setTasks] = useState([]),
+        [user, setUser] = useState({}),
+        navigate = useNavigate();
 
     useEffect(() => {
         GetAllProjects()
             .then((res) => {
-                setProjects(res)
+                let list = []
+                res.map(CUP => {
+                    if (CUP.userId == 1) {
+                        list.push(CUP)
+                    }
+                })
+                setProjects(list)
             })
+
+        GetAllTasks()
+            .then(t => setTasks(t))
 
     }, [])
 
-    const navigate = useNavigate();
 
     return <>
 
@@ -34,16 +46,33 @@ export default function Hello() {
                 <h3>Deadlines</h3>
                 {
                     projects.map(p => {
-                        if (p.userId == 1) {
 
-                            return <div key={p.id}>
-                                <Link to={`/project/${p.id}`}>
-                                    {p.title}
-                                </Link> - {new Date(p.deadline).toLocaleDateString()}
-                            </div>
-                        }
+                        return <div key={p.id}>
+                            Project -
+                            <Link to={`/project/${p.id}`}>
+                                {p.title}
+                            </Link> - {new Date(p.deadline).toLocaleDateString()}
+                        </div>
+
                     })
+
                 }
+                {
+                    tasks.map(p => {
+
+                        return <div key={p.id}>
+                            Task -
+                            <Link to={`/project/${p.projectId}`}>
+                                {p.content}
+                            </Link> -
+                            {new Date(p.deadline).toLocaleDateString()}
+                        </div>
+
+                    })
+
+                }
+
+
             </div>
 
         </div >

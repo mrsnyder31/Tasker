@@ -32,6 +32,7 @@ namespace Tasker
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IProjectRepository, ProjectRepository>();
+            services.AddTransient<ITaskRepository, TaskRepository>();
 
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");

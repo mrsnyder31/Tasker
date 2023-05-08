@@ -2,19 +2,34 @@ import { Button, Form, FormGroup, Input } from "reactstrap";
 import { addProject } from "../modules/projectManager";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addTask } from "../modules/taskManager";
+import { GetAllTasks, editTask } from "../modules/taskManager";
 
-export default function TaskForm({ setTaskOpen, taskOpen, id }) {
-    const [task, setTask] = useState({ ProjectId: id }),
+export default function TaskEdit({ setEditOpen, editOpen, editId }) {
+    const [task, setTask] = useState({}),
         navigate = useNavigate();
+
+    useEffect(() => {
+
+        GetAllTasks().then((data) => {
+            data.map(d => {
+
+                if (d.id == editId) {
+
+                    setTask(d);
+                }
+            })
+        })
+    }, [])
+
+
 
     return <>
         <div className="task_form">
             <Form>
-                <h3>New task</h3>
+                <h3>Edit task +{editId}+</h3>
                 <FormGroup >
                     <strong htmlFor="Content">Description</strong>
-                    <Input type="textarea" name="Content" id="Content" placeholder=""
+                    <Input type="textarea" name="Content" id="Content" placeholder={task.content}
 
                         onChange={(evt) => {
                             let copy = { ...task }
@@ -46,14 +61,15 @@ export default function TaskForm({ setTaskOpen, taskOpen, id }) {
                 </FormGroup>
                 <Button
                     onClick={() => {
-                        setTaskOpen(!taskOpen);
+                        setEditOpen(!editOpen);
                     }}
                 >
                     Cancel
                 </Button>
                 <Button
                     onClick={() => {
-                        addTask(task).then(navigate(0))
+                        editTask(task)
+                            .then(navigate(0))
                     }}
                 >Submit</Button>
             </Form>
