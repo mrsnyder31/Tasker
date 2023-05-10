@@ -60,5 +60,46 @@ namespace Tasker.Repositories
                 }
             }
         }
+
+        public void DeleteTask(int id) 
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"DELETE FROM Task WHERE Id = @id";
+
+                    DbUtils.AddParameter(cmd, "@id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void EditTask(Task task) 
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE Task
+                                        SET Content = @content,
+                                            Deadline = @deadline,
+                                            IsComplete = @isComplete,
+                                            ProjectId = @projectId
+                                        WHERE Id = @id";
+
+                    DbUtils.AddParameter(cmd, "@id", task.Id);
+                    DbUtils.AddParameter(cmd, "@content", task.Content);
+                    DbUtils.AddParameter(cmd, "@deadline", task.Deadline);
+                    DbUtils.AddParameter(cmd, "@isComplete", task.IsComplete);
+                    DbUtils.AddParameter(cmd, "@ProjectId", task.ProjectId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

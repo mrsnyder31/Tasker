@@ -14,14 +14,16 @@ import {
     ModalFooter,
 } from "reactstrap";
 import TaskForm from "./TaskForm";
-import { GetAllTasks } from "../modules/taskManager";
+import { GetAllTasks, deleteTask } from "../modules/taskManager";
 import TaskEdit from "./TaskEdit";
+import { GetAllCategories } from "../modules/categoryManager";
 
 
 export default function ProjectDetails() {
     const
         [project, setProject] = useState({}),
         [tasks, setTasks] = useState([]),
+        [category, setCategory] = useState({}),
         [isOpen, setIsOpen] = useState(false),
         [taskOpen, setTaskOpen] = useState(false),
         [editOpen, setEditOpen] = useState(false),
@@ -41,7 +43,22 @@ export default function ProjectDetails() {
                 setTasks(list)
             })
         })
+
     }, [])
+
+    useEffect(() => {
+        GetAllCategories()
+            .then((cat) => {
+                cat.map(c => {
+
+                    if (c.id == project.categoryId) {
+                        setCategory(c)
+                    }
+                })
+            })
+
+    }, [project])
+
 
     const DeletePostModal = () => {
         return (
@@ -115,17 +132,25 @@ export default function ProjectDetails() {
                         setEditOpen(!editOpen)
                     }} >Edit Task</button>
 
+                    <button className="btn btn-danger m-4" onClick={() => {
+                        deleteTask(t.id).then(navigate(0))
+
+
+                    }} >Delete Task</button>
+
                 </CardText>
                 ))
             }
+            <CardBody className="m-4">
+                <Button className="btn btn-info m-4" onClick={() => {
+                    setTaskOpen(!taskOpen)
+                }} >Add Task</Button>
+            </CardBody>
 
-            <button className="btn m-4" onClick={() => {
-                setTaskOpen(!taskOpen)
-            }} >Add Task</button>
-
+            <CardText className="m-4">{category.name}</CardText>
         </Card >
         <Button
-            className="btn m-4"
+            className="btn btn-primary m-4"
             onClick={() => {
                 navigate(`/project/edit/${project.id}`)
             }}
@@ -143,7 +168,6 @@ export default function ProjectDetails() {
         <NewTaskModal />
         <DeletePostModal />
         <EditTaskModal />
-
 
     </>
 }
