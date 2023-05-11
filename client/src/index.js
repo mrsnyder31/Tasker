@@ -10,7 +10,15 @@ import firebase from "firebase/app";
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
 }
-firebase.initializeApp(firebaseConfig)
+firebase.initializeApp(firebaseConfig);
+
+//seemingly not solution
+firebase
+  .auth()
+  .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+  .catch((error) => {
+    console.error("Error enabling persistence:", error);
+  });
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

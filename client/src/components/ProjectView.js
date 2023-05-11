@@ -2,12 +2,12 @@ import { useEffect, useState } from "react"
 import { GetAllProjects } from "../modules/projectManager"
 import { Link } from "react-router-dom";
 import { GetAllCategories } from "../modules/categoryManager";
-import { GetAllProjectTags, GetAllTags } from "../modules/tagManager";
-import { Button, Form, FormGroup, Input } from "reactstrap";
-import { GetAllTasks } from "../modules/taskManager";
+import { GetAllTags } from "../modules/tagManager";
+import { Button } from "reactstrap";
 
-export default function ProjectView() {
-    const [projects, setProjects] = useState([]),
+export default function ProjectView({ user }) {
+    const
+        [projects, setProjects] = useState([]),
         [list, setList] = useState([]),
         [categories, setCategories] = useState([]),
         [tags, setTags] = useState([]),
@@ -15,8 +15,9 @@ export default function ProjectView() {
         [filterOptions, setFilterOptions] = useState({
             Deadline: '',
             CategoryId: 0,
-            // TagId: 0,
+
         });
+
 
     useEffect(() => {
         let list = []
@@ -24,6 +25,7 @@ export default function ProjectView() {
             .then((res) => {
                 res.map(CUP => {
                     if (CUP.userId == 1) {
+
                         list.push(CUP)
                     }
                 })
@@ -31,23 +33,12 @@ export default function ProjectView() {
             })
         GetAllCategories().then(cat => setCategories(cat))
         GetAllTags().then((res) => { setTags(res) })
-    }, [])
+
+    }, [user])
 
     useEffect(() => {
         setList(projects)
 
-        // GetAllProjectTags().then((data) => {
-        //     let list = []
-        //     data.map(d => {
-        //         projects.map(p => {
-        //             if (d.projectId == p.id) {
-        //                 list.push(d)
-        //             }
-
-        //         })
-        //         setTasks(list)
-        //     })
-        // })
     }, [projects])
 
     return <>
@@ -87,23 +78,6 @@ export default function ProjectView() {
                         }
                     </select>
                 </div>
-
-                {/* {
-                    tags.map(c => {
-
-                        return (
-                            <div className="m-4" key={`tag--${c.id}`} >
-                                < Input type="checkbox" checked={filterOptions.TagId === c.id} value={c.id} onChange={(evt) => {
-                                    let copy = { ...filterOptions }
-                                    copy.TagId = parseInt(evt.target.value)
-                                    setFilterOptions(copy);
-                                }} />
-                                {c.name}
-                            </div>
-                        )
-
-                    })
-                } */}
 
                 <Button className="m-4" onClick={() => {
                     let list = []

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -8,6 +9,7 @@ using Tasker.Repositories;
 
 namespace Tasker.Controllers
 {
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectController : ControllerBase
@@ -24,13 +26,23 @@ namespace Tasker.Controllers
         [HttpGet]
         public IActionResult Get()
         {
+            //var user = GetCurrentUser();
+            //var projects = _projectRepository.GetAll();
+            //foreach (var project in projects)
+            //{
+            //    project.Me = user;
+            //}
             return Ok(_projectRepository.GetAll());
         }
+
+        
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
+            //var user = GetCurrentUser();
             var project = _projectRepository.GetProjectById(id);
+            //project.Me = user;
             if (project == null)
             {
                 return NotFound();

@@ -29,7 +29,7 @@
   /* display: flex; */
   /* flex-flow: row nowrap; */
   /* justify-content: space-between; */
-
+  background-color: rgba(240, 240, 221, 0.781);
   /* color: aquamarine; */
   text-align: left;
   border: 2px solid black;
@@ -39,6 +39,10 @@
 
 .home_task_content {
   width: 50%;
+}
+
+.home_select {
+  margin: 20px 0px -18px;
 }
 
 .navbar_container {
@@ -115,7 +119,7 @@
 
 .tag_name {
 
-  width: 30%;
+  width: 40%;
 }
 
 .task_buttons {

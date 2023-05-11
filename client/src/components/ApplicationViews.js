@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
@@ -10,6 +10,7 @@ import ProjectEdit from "./ProjectEdit";
 
 
 
+
 export default function ApplicationViews({ isLoggedIn }) {
     return (
         <main>
@@ -17,7 +18,7 @@ export default function ApplicationViews({ isLoggedIn }) {
                 <Route path="/">
                     <Route
                         index
-                        element={isLoggedIn ? <Hello /> : <Navigate to="/login" />}
+                        element={isLoggedIn ? <Hello isLoggedIn={isLoggedIn} /> : <Navigate to="/login" />}
                     />
                     <Route path="project" element={<ProjectView />}></Route>
                     <Route path="project/new" element={<ProjectForm />}></Route>
