@@ -29,7 +29,6 @@ export default function ProjectDetails() {
         [tags, setTags] = useState([]),
         [projectTags, setProjectTags] = useState([]),
         [category, setCategory] = useState({}),
-
         [isOpen, setIsOpen] = useState(false),
         [tagOpen, setTagOpen] = useState(false),
         [taskOpen, setTaskOpen] = useState(false),
@@ -68,23 +67,12 @@ export default function ProjectDetails() {
 
     }, [project])
 
-    // useEffect(() => {
-    //     GetAllProjectTags().then((res) => {
-    //         let currentPT = []
-    //         res.map(PT => {
-    //             if (PT.taskId === editId) {
-    //                 currentPT.push(PT)
-    //             }
-    //         })
-    //         setProjectTags(currentPT)
-    //     })
-    // }, [editId])
 
     const DeletePostModal = () => {
         return (
             <Modal isOpen={isOpen}>
                 <ModalBody>Are you sure you want to delete this project?</ModalBody>
-                <ModalFooter>
+                <ModalBody>
                     <Button
                         onClick={() => {
                             setIsOpen(!isOpen);
@@ -101,7 +89,7 @@ export default function ProjectDetails() {
                     >
                         Delete
                     </Button>
-                </ModalFooter>
+                </ModalBody>
             </Modal>
         );
     };
@@ -209,7 +197,7 @@ export default function ProjectDetails() {
                                 {task.content}
                             </CardText>
 
-                            <CardSubtitle className="task_tag">
+                            <CardText className="task_tag">
                                 {
                                     projectTags.map(tag => {
 
@@ -229,7 +217,7 @@ export default function ProjectDetails() {
                                         }
                                     })
                                 }
-                            </CardSubtitle>
+                            </CardText>
                             <div className="task_buttons">
                                 <Button className="btn-info task_button" onClick={() => {
                                     setEditId(task.id)

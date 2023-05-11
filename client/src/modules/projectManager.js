@@ -1,13 +1,30 @@
+import { getToken } from "./authManager";
+
+
 const baseUrl = '/api/Project';
 
 export const GetAllProjects = () => {
-    return fetch(baseUrl)
+    // return getToken().then((token) => {
+    return fetch(baseUrl, {
+        method: "GET"
+        // ,
+        // headers: {
+        //     Authorization: `Bearer ${token}`
+        // }
+    })
         .then((res) => res.json())
+    // })
 }
 
 export const GetProjectById = (id) => {
-
-    return fetch(`${baseUrl}/${id}`).then((resp) => {
+    // return getToken().then((token) => {
+    return fetch(`${baseUrl}/${id}`, {
+        method: "GET"
+        // ,
+        // headers: {
+        //     Authorization: `Bearer ${token}`
+        // }
+    }).then((resp) => {
         if (resp.ok) {
             return resp.json();
         } else {
@@ -16,22 +33,31 @@ export const GetProjectById = (id) => {
             );
         }
     });
+    // })
 };
 
 export const addProject = (project) => {
+    // return getToken().then((token) => {
     return fetch(baseUrl, {
         method: "POST",
         headers: {
+            // Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
         },
         body: JSON.stringify(project),
     })
         .then((resp) => resp.json())
+    // })
 };
 
 export const deleteProject = (id) => {
+    // return getToken().then((token) => {
     return fetch(`${baseUrl}?id=${id}`, {
         method: "DELETE"
+        // ,
+        // headers: {
+        //     Authorization: `Bearer ${token}`
+        // }
     }).then((resp) => {
         if (resp.ok) {
             return resp;
@@ -41,16 +67,19 @@ export const deleteProject = (id) => {
             );
         }
     });
+    // })
 };
 
 export const editProject = (project) => {
+    // return getToken().then((token) => {
     return fetch(`${baseUrl}/${project.id}`, {
         method: "PUT",
         headers: {
+            // Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
         },
         body: JSON.stringify(project),
     })
         .then((resp) => { return resp; })
-
+    // })
 }

@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 
-const _apiUrl = "/api/user";
+const _apiUrl = "/api/User";
 
 const _doesUserExist = (firebaseUserId) => {
     return getToken().then((token) =>
@@ -22,12 +22,16 @@ const _saveUser = (userProfile) => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(userProfile)
-        }).then(resp => resp.json()));
+        })
+            .then(resp => resp.json())
+    )
+
 };
 
 
 
 // export const getToken = () => firebase.auth().currentUser.getIdToken();
+
 export const getToken = () => {
     const user = firebase.auth().currentUser;
     if (user) {
@@ -87,5 +91,4 @@ export const me = () => {
         }).then((resp) => resp.json())
     });
 };
-
 

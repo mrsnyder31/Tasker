@@ -123,7 +123,7 @@ namespace Tasker.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO User (DisplayName, Email, FirebaseUserId)
+                    cmd.CommandText = @"INSERT INTO [User] (DisplayName, Email, FirebaseUserId)
                                         OUTPUT INSERTED.ID
                                         VALUES (@displayName, @email, @firebaseUserId) ";
 
