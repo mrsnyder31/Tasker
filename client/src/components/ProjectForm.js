@@ -19,8 +19,8 @@ export default function ProjectForm() {
 
 
     return <>
-        <div className="project_form">
-            <Form>
+        <div className="project_form m-4">
+            <Form className="m-4">
                 <h3>New Project</h3>
 
                 <FormGroup className="m-4">
