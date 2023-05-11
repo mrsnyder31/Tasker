@@ -7,7 +7,6 @@ import {
     Button,
     Card,
     CardBody,
-
     CardText,
     CardTitle,
 
@@ -25,8 +24,6 @@ export default function Hello({ isLoggedIn }) {
         [tags, setTags] = useState([]),
         [projectTags, setProjectTags] = useState([]),
         navigate = useNavigate();
-
-
 
     useEffect(() => {
         let list = []
@@ -51,7 +48,7 @@ export default function Hello({ isLoggedIn }) {
         GetAllTasks()
             .then((res) => {
                 res.map(task => {
-                    if (task.projectId == projects[0]?.id) {
+                    if (task.projectId == projectDisplay?.id) {
                         list.push(task)
                     }
                 })
@@ -59,7 +56,7 @@ export default function Hello({ isLoggedIn }) {
             })
 
 
-    }, [projects])
+    }, [projects, projectDisplay])
 
     useEffect(() => {
         let list = []
@@ -94,46 +91,49 @@ export default function Hello({ isLoggedIn }) {
                             <option value={0}>Select a Project</option>
                             {
                                 projects.map(p => {
-                                    return < option value={p.id} key={`hfddf${p.id}`} > {p.title}</option>
+                                    return < option value={p.id} key={`hippaviolation${p.id}`} > {p.title}</option>
                                 })
                             }
                         </select>
                         < Card className="m-4">
                             <CardBody>
-                                <Link to={`/project/${sortedProjects[0]?.id}`}>
-                                    <CardTitle tag='h3'>{sortedProjects[0]?.title}</CardTitle>
+                                <Link to={`/project/${projectDisplay?.id}`}>
+                                    <CardTitle tag='h3'>{projectDisplay?.title}</CardTitle>
                                 </Link>
                             </CardBody>
 
                             {
                                 tasks.map(task => {
 
-                                    if (task.projectId === sortedProjects[0]?.id) {
+                                    if (task.projectId === projectDisplay?.id) {
                                         return <React.Fragment key={`tasksde--${task.id}`}>
 
                                             <CardText className="m-3 home_task_item"
                                                 style={{ backgroundColor: task.isComplete ? 'rgba(175, 240, 155, 0.781)' : ' rgba(240, 240, 221, 0.781)' }}
                                                 onClick={() => {
                                                     if (task.isComplete) {
-                                                        alert("Task Incomplete")
+
                                                         task.isComplete = false
                                                         editTask(task)
+
                                                     }
                                                     else {
-                                                        alert("Task Complete")
+
                                                         task.isComplete = true
                                                         editTask(task)
+
                                                     }
                                                 }}>
                                                 <CardText className="home_task_content">
                                                     <h5>{task.content}</h5>
+                                                    <p>Deadline - {new Date(task.deadline).toLocaleDateString()}</p>
                                                 </CardText>
 
                                                 <div className="home_tag">
                                                     {
                                                         projectTags.map(tag => {
 
-                                                            if (tag.projectId == sortedProjects[0]?.id && tag.taskId == task.id) {
+                                                            if (tag.projectId == projectDisplay?.id && tag.taskId == task.id) {
                                                                 return <React.Fragment key={`taasfdg--${tag.id}`}>
                                                                     {
                                                                         tags.map(tt => {
