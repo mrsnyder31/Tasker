@@ -3,9 +3,11 @@ import { addProject } from "../modules/projectManager";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GetAllTasks, editTask } from "../modules/taskManager";
+import { GetAllTags, addProjectTag } from "../modules/tagManager";
 
 export default function TaskEdit({ setEditOpen, editOpen, editId }) {
     const [task, setTask] = useState({}),
+        [tags, setTags] = useState([]),
         navigate = useNavigate();
 
     useEffect(() => {
@@ -19,6 +21,7 @@ export default function TaskEdit({ setEditOpen, editOpen, editId }) {
                 }
             })
         })
+        GetAllTags().then((res) => { setTags(res) })
     }, [])
 
 
@@ -26,7 +29,7 @@ export default function TaskEdit({ setEditOpen, editOpen, editId }) {
     return <>
         <div className="task_form">
             <Form>
-                <h3>Edit task +{editId}+</h3>
+                <h3>Edit Task</h3>
                 <FormGroup >
                     <strong htmlFor="Content">Description</strong>
                     <Input type="textarea" name="Content" id="Content" placeholder={task.content}
@@ -49,16 +52,24 @@ export default function TaskEdit({ setEditOpen, editOpen, editId }) {
                         }} />
                 </FormGroup>
 
-                <FormGroup >
+                {/* <FormGroup >
                     <strong htmlFor="tag">Tags</strong>
-                    <Input type="text" name="tag" id="tag" placeholder="Replace with CHECKBOXES"
+                    <div className="checkbox_container">
+                        {
 
-                    // onChange={(evt) => {
-                    //     let copy = { ...task }
-                    //     copy.CategoryId = parseInt(evt.target.value)
-                    //     setTask(copy); }} 
-                    />
-                </FormGroup>
+                            tags.map(c => {
+                                return (
+
+                                    <div className="checkboxes"  >
+                                        < Input type="checkbox" value={c.name} key={`tag--${c.id}`} />
+                                        {c.name}
+                                    </div>
+                                )
+
+                            })
+                        }
+                    </div>
+                </FormGroup> */}
                 <Button
                     onClick={() => {
                         setEditOpen(!editOpen);

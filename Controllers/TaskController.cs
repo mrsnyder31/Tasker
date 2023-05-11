@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using Tasker.Models;
 using Tasker.Repositories;
 
@@ -30,6 +31,27 @@ namespace Tasker.Controllers
 
             _taskRepository.AddTask(task);
             return CreatedAtAction("Get", new { id = task.Id }, task);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Task task)
+        {
+            if (id != task.Id)
+            {
+                Console.WriteLine("id: ", id, "task id: ", task.Id);
+                return BadRequest();
+            }
+
+            _taskRepository.EditTask(task);
+            return NoContent();
+
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            _taskRepository.DeleteTask(id);
+            return Ok();
         }
     }
 }

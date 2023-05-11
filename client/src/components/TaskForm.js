@@ -3,16 +3,21 @@ import { addProject } from "../modules/projectManager";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addTask } from "../modules/taskManager";
+import { GetAllTags, addProjectTag } from "../modules/tagManager";
 
 export default function TaskForm({ setTaskOpen, taskOpen, id }) {
     const [task, setTask] = useState({ ProjectId: id }),
+        [tags, setTags] = useState([]),
+        [projectTags, setProjectTags] = useState([]),
         navigate = useNavigate();
+
+    useEffect(() => { GetAllTags().then((res) => { setTags(res) }) }, [])
 
     return <>
         <div className="task_form">
             <Form>
                 <h3>New task</h3>
-                <FormGroup >
+                <FormGroup>
                     <strong htmlFor="Content">Description</strong>
                     <Input type="textarea" name="Content" id="Content" placeholder=""
 
@@ -34,16 +39,6 @@ export default function TaskForm({ setTaskOpen, taskOpen, id }) {
                         }} />
                 </FormGroup>
 
-                <FormGroup >
-                    <strong htmlFor="tag">Tags</strong>
-                    <Input type="text" name="tag" id="tag" placeholder="Replace with CHECKBOXES"
-
-                    // onChange={(evt) => {
-                    //     let copy = { ...task }
-                    //     copy.CategoryId = parseInt(evt.target.value)
-                    //     setTask(copy); }} 
-                    />
-                </FormGroup>
                 <Button
                     onClick={() => {
                         setTaskOpen(!taskOpen);
