@@ -24,7 +24,8 @@ export default function ProjectView({ user }) {
         GetAllProjects()
             .then((res) => {
                 res.map(CUP => {
-                    if (CUP.userId == 1) {
+
+                    if (CUP.userId == 17) {
 
                         list.push(CUP)
                     }
@@ -43,7 +44,7 @@ export default function ProjectView({ user }) {
 
     return <>
         <div className="project_container m-4">
-            <div className="project_filter ">
+            <div className="project_filter home_deadline">
                 <h3>Filter Options</h3>
                 <div>
 
@@ -102,11 +103,11 @@ export default function ProjectView({ user }) {
                 }}>Clear Filters</Button>
 
             </div>
-            <div className="project_list">
+            <div className="project_list home_deadline">
                 <h3>Project List</h3>
                 {
                     list.map(p => {
-                        return <div key={p.id}>
+                        return <div className="PL_item" key={p.id}>
                             <Link to={`/project/${p.id}`}>
                                 {p.title}
                             </Link>

@@ -26,12 +26,7 @@ namespace Tasker.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            //var user = GetCurrentUser();
-            //var projects = _projectRepository.GetAll();
-            //foreach (var project in projects)
-            //{
-            //    project.Me = user;
-            //}
+          
             return Ok(_projectRepository.GetAll());
         }
 
@@ -40,9 +35,9 @@ namespace Tasker.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            //var user = GetCurrentUser();
+         
             var project = _projectRepository.GetProjectById(id);
-            //project.Me = user;
+       
             if (project == null)
             {
                 return NotFound();
@@ -54,7 +49,7 @@ namespace Tasker.Controllers
         public IActionResult Post(Project project)
         {
             //var currentUser = GetCurrentUser();
-            var currentUser = 1;
+            var currentUser = 17;
             project.UserId = currentUser;
 
             _projectRepository.AddProject(project);

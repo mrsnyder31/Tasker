@@ -18,7 +18,7 @@ export default function Hello({ isLoggedIn }) {
 
     const
         [projects, setProjects] = useState([]),
-        [projectDisplay, setProjectDisplay] = useState({}),
+        [projectDisplay, setProjectDisplay] = useState(),
         [tasks, setTasks] = useState([]),
         [list, setList] = useState([]),
         [tags, setTags] = useState([]),
@@ -30,7 +30,7 @@ export default function Hello({ isLoggedIn }) {
         GetAllProjects()
             .then((res) => {
                 res.map(CUP => {
-                    if (CUP.userId == 1) {
+                    if (CUP.userId == 17) {
 
                         list.push(CUP)
                     }
@@ -78,13 +78,14 @@ export default function Hello({ isLoggedIn }) {
 
             <div className="home_project">
                 {
-                    list ? <>
+                    projectDisplay ? <>
 
                         <select className="home_select" onChange={(evt) => {
                             projects.find(p => {
                                 if (evt.target.value == p.id) {
                                     setProjectDisplay(p)
                                 }
+
 
                             })
                         }}>
@@ -98,7 +99,7 @@ export default function Hello({ isLoggedIn }) {
                         < Card className="m-4">
                             <CardBody>
                                 <Link to={`/project/${projectDisplay?.id}`}>
-                                    <CardTitle tag='h3'>{projectDisplay?.title}</CardTitle>
+                                    <CardTitle tag='h4'>{projectDisplay?.title}</CardTitle>
                                 </Link>
                             </CardBody>
 
@@ -116,6 +117,7 @@ export default function Hello({ isLoggedIn }) {
                                                         task.isComplete = false
                                                         editTask(task)
 
+
                                                     }
                                                     else {
 
@@ -126,7 +128,7 @@ export default function Hello({ isLoggedIn }) {
                                                 }}>
                                                 <CardText className="home_task_content">
                                                     <h5>{task.content}</h5>
-                                                    <p>Deadline - {new Date(task.deadline).toLocaleDateString()}</p>
+                                                    {/* <p>Deadline - {new Date(task.deadline).toLocaleDateString()}</p> */}
                                                 </CardText>
 
                                                 <div className="home_tag">
@@ -167,23 +169,22 @@ export default function Hello({ isLoggedIn }) {
                         :
                         <>
 
-                            {/* <select className="home_select" onChange={(evt) => {
-                               
+                            <select className="home_select" onChange={(evt) => {
                                 projects.find(p => {
                                     if (evt.target.value == p.id) {
                                         setProjectDisplay(p)
-
                                     }
-                                    // else { setProjectDisplay(0) }
+
+
                                 })
                             }}>
                                 <option value={0}>Select a Project</option>
                                 {
                                     projects.map(p => {
-                                        return < option key={`asdf${p.id}`} value={p.id} > {p.title}</option>
+                                        return < option value={p.id} key={`hippaviolation${p.id}`} > {p.title}</option>
                                     })
                                 }
-                            </select> */}
+                            </select>
                             <div className="home_select">
 
                                 <h3><Button onClick={() => { navigate("/project/new") }}>Create Project</Button></h3>
@@ -193,31 +194,31 @@ export default function Hello({ isLoggedIn }) {
             </div>
 
             <div className="home_deadline">
+
                 <h3>Deadlines</h3>
-
-
-                {
-                    sortedArray.map(LI => {
-                        if (LI.title) {
-                            return <div key={LI.id}>
-                                Project -
-                                <Link to={`/project/${LI.id}`}>
-                                    {LI.title}
-                                </Link> - {new Date(LI.deadline).toLocaleDateString()}
-                            </div>
-                        }
-                        else {
-                            return <div key={LI.id}>
-                                Task -
-                                <Link to={`/project/${LI.projectId}`}>
-                                    {LI.content}
-                                </Link> -
-                                {new Date(LI.deadline).toLocaleDateString()}
-                            </div>
-                        }
-                    })
-                }
-
+                <Card className="deadline_card">
+                    {
+                        sortedArray.map(LI => {
+                            if (LI.title) {
+                                return <div className="home_deadline_item_p" key={LI.id}>
+                                    Project -
+                                    <Link to={`/project/${LI.id}`}>
+                                        {LI.title}
+                                    </Link> - {new Date(LI.deadline).toLocaleDateString()}
+                                </div>
+                            }
+                            else {
+                                return <div className="home_deadline_item_t" key={LI.id}>
+                                    Task -
+                                    <Link to={`/project/${LI.projectId}`}>
+                                        {LI.content}
+                                    </Link> -
+                                    {new Date(LI.deadline).toLocaleDateString()}
+                                </div>
+                            }
+                        })
+                    }
+                </Card>
             </div>
 
         </div >
