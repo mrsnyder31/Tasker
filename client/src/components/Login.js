@@ -17,32 +17,35 @@ export default function Login() {
     };
 
     return (
-        <Form onSubmit={loginSubmit}>
-            <fieldset>
-                <FormGroup>
-                    <Label for="email">Email</Label>
-                    <Input
-                        id="email"
-                        type="text"
-                        autoFocus
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="password">Password</Label>
-                    <Input
-                        id="password"
-                        type="password"
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Button>Login</Button>
-                </FormGroup>
-                <em>
-                    Not registered? <Link to="/register">Register</Link>
-                </em>
-            </fieldset>
-        </Form>
+        <div className="m-4">
+
+            <Form className="register" onSubmit={loginSubmit}>
+                <fieldset>
+                    <FormGroup>
+                        <Label for="email">Email</Label>
+                        <Input
+                            id="email"
+                            type="text"
+                            autoFocus
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="password">Password</Label>
+                        <Input
+                            id="password"
+                            type="password"
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Button>Login</Button>
+                    </FormGroup>
+                    <em>
+                        Not registered? <Link to="/register">Register</Link>
+                    </em>
+                </fieldset>
+            </Form>
+        </div>
     );
 }
