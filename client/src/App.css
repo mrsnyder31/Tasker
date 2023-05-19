@@ -153,21 +153,21 @@
   width: 30%;
 }
 
-/* .tag_name {
+.tag_name {
 
   width: 40%;
-} */
+}
 
-/* .task_buttons {
+.task_buttons {
   display: flex;
   justify-content: space-evenly;
   max-height: 60px;
   width: 30%;
-} */
+}
 
-/* .PL_item {
+.PL_item {
   border: 1px solid black;
   height: 30px;
   margin: 10px;
   width: 60%;
-} */
+}
